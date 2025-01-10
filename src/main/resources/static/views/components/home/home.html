@@ -1,0 +1,58 @@
+<template>
+	<div>
+		<div class="home-bg">
+			<div class="search-container" style="padding-right:15px; padding-left:15px; margin-right:auto; margin-left:auto; max-width:900px;">
+				<div class="align-center" style="padding-top:130px;">
+					<h1 style="color:white; letter-spacing:0.1rem;">天然产物次生代谢物质谱谱图库</h1>
+					<div style="color:white; font-size:1.8rem; margin-top:0.67em; margin-bottom:0.67em;">Natural Product Secondary Metabolite<br>Mass Spectral Database</div>
+				</div>
+			    <div class="display-flex">
+			    	<div class="flex-1" style="position:relative;">
+			    		<el-input v-model="keyword" style="height:100%;" @keydown="onSearchBtnClick" @focus="onSearchInputFocus" @blur="onSearchInputBlur"></el-input>
+			    		<div id="search-history" v-if="showHistory===true">
+		    				<ul class="unstyled-list">
+		    					<div class="search-history-list-container">
+		    						<li v-for="(item,index) in searchHistory" :key="index" class="search-history-item" @click="quickSearch(item)">
+						    			{{ item }}
+						    		</li>
+		    					</div>
+					    	</ul>
+					    	<div class="search-hitory-close">
+					    		<div @click="clearSearchHistory">清空历史</div>
+					    	</div>
+					    </div>
+			    	</div>
+			        <el-button type="primary" class="flex-center icon-search" @click="onSearchBtnClick">
+			        	<span class="f-1125">Search</span>
+			        </el-button>
+			    </div>
+			    <div class="flex-center flex-between mt-20">
+			    	<div class="tips" @click="quickSearch('LTS0144006')">LotusID:LTS0144006</div>
+			    	<div class="tips" @click="quickSearch('5280862')">PubChemID:5280862</div>
+			    	<div class="tips" @click="quickSearch('C15H10O7')">C15H10O7</div>
+			    	<div class="tips" @click="quickSearch('Terpenoids')">Pathway:Terpenoids</div>
+			    	<div class="tips" @click="quickSearch('芍药')">芍药</div>
+			    	<div class="tips" @click="quickSearch('Flavones')">Flavones</div>
+			    </div>
+			</div>
+		</div>
+		<div style="width:100%; position:relative;">
+			<div style="position:absolute; right:0px; top:0px;">
+				<img src="/assets/image/right_bg.png">
+			</div>
+			<div style="position:absolute; left:0px; bottom:0px;">
+				<img src="/assets/image/left_bg.png">
+			</div>
+			<div class="img-gallery-wrapper">
+				<div class="img-gallery">
+					<div class="img-container" id="imgContainer">
+						<img v-for="n in 4" :key="n" :src="'/assets/image/flower' + n + '.png'" :loading="n >= 5 ? 'lazy' : 'eager'">
+						<img src="/assets/image/flower1.png" loading="lazy">
+						<img src="/assets/image/flower2.png" loading="lazy">
+						<img src="/assets/image/flower3.png" loading="lazy">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

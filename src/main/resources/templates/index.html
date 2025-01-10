@@ -3,17 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<title>npms</title>
-	<link href="/css/elementui/element-ui@2.15.14.min.css" rel="stylesheet" type="text/css">
+	<link href="/js/elementui/element-ui@2.15.14.min.css" rel="stylesheet" type="text/css">
 	<link href="/css/index.css" rel="stylesheet" type="text/css">
-	<script src="/src/util/require-config.js" type="text/javascript"></script>
-	<script data-main="/src/main.js" src="/js/require/require@2.3.2.min.js"></script>	
+	<script src="/views/util/require-config.js" type="text/javascript"></script>
+	<script data-main="/views/main.js" src="/js/require/require@2.3.2.min.js"></script>	
 </head>
 <body>
 <div id="app" style="display:none;" :style="{display:'block'}">
-	<div>
+	<div :class="{ navbar: true, 'navbar-light': navbarLight }" :data-scrolled="isScrolled">
+		<div class="flex-center justify-content-center">
+			<div class="header">
+				<router-link to="/home" class="nav-link-logo">
+					<img :src="logoSrc">
+				</router-link>
+				<router-link class="nav-link" to="/home" :active-class="navLinkActiveClass" :style="{ color: navLinkColor }">Home</router-link>
+				<router-link class="nav-link" to="/search" active-class="nav-link-active-light" :style="{ color: navLinkColor }">Browse</router-link>
+				<router-link class="nav-link" to="/data-mining" active-class="nav-link-active-light" :style="{ color: navLinkColor }">Mining</router-link>
+				<router-link class="nav-link" to="/about" active-class="nav-link-active-light" :style="{ color: navLinkColor }">About</router-link>
+				<router-link class="nav-link" to="/news" active-class="nav-link-active-light" :style="{ color: navLinkColor }">News</router-link>
+				<router-link class="nav-link" to="/testing" active-class="nav-link-active-light" :style="{ color: navLinkColor }">我要测</router-link>
+			</div>
+		</div>
+	</div>
+	<div class="main">
 		<router-view :key="$route.fullPath"></router-view>
 	</div>
-    <div id="footer"></div>
+    <div class="footer flex-center justify-content-center">
+   		<img src="/assets/image/logo.svg" style="height:36px;">
+   		<div class="footer-desc ml-5">Natural Product Secondary Metabolite<br>Mass Spectral Database</div>
+   		<div class="footer-desc ml-20">Database version: NPMS 1.0<br>Last update time: 2024-10</div>
+    </div>
 </div>
 </body>
 </html>

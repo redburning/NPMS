@@ -1,0 +1,248 @@
+<div>
+	<div class="content-wrapper">
+		<div class="flex">
+			<div class="content">
+				<div class="content-header">
+					<div>
+						<div class="content-header-desc">Metabolite name</div>
+						<div class="content-header-title">Coleonol B</div>
+					</div>
+				</div>
+				<div class="content-body">
+					<div class="content-item-wrapper">
+						<div class="content-item-header">
+							<img src="/icon/icon-id.svg">
+							<span>ID and Overview</span>
+						</div>
+						<div class="content-item">
+							<div class="column-table">
+								<div class="flex-center">
+									<div class="column-table-header">English Name</div>
+									<div class="column-table-cell">{{ searchHit.englishName }}</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="column-table-header">Chinese Name</div>
+									<div class="column-table-cell">{{ searchHit.chineseName }}</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="column-table-header">Chinese Name Alias</div>
+									<div class="column-table-cell">{{ searchHit.chineseNameAlias }}</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">NPMS</div>
+										<div class="column-table-cell" v-html="searchHit.ipt"></div>
+									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">CAS</div>
+										<div class="column-table-cell">{{ searchHit.cas }}</div>
+									</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">LOTUS</div>
+										<div class="column-table-cell">{{ searchHit.lotus }}</div>
+									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">Wikidata</div>
+										<div class="column-table-cell">{{ searchHit.wikidata }}</div>
+									</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">PubChemCID</div>
+										<div class="column-table-cell">{{ searchHit.pubChemCID }}</div>
+									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">NPMS Secondary ID</div>
+										<div class="column-table-cell"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item-wrapper">
+						<div class="content-item-header">
+							<img src="/icon/icon-chemical.svg">
+							<span>Chemical Identifiers</span>
+						</div>
+						<div class="content-item">
+							<div class="column-table">
+								<div class="flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">Formula</div>
+										<div class="column-table-cell">{{ searchHit.molecularFormula }}</div>
+									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">Charge State</div>
+										<div class="column-table-cell"></div>
+									</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">Monoisotopic Mass</div>
+										<div class="column-table-cell">{{ searchHit.monoisotopicMass }}</div>
+									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">Average MW</div>
+										<div class="column-table-cell"></div>
+									</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="column-table-header">InChI Key</div>
+									<div class="column-table-cell">{{ searchHit.inChIKey }}</div>
+								</div>
+								<div class="column-table-border-top flex-stretch">
+									<div class="column-table-header">SMILES</div>
+									<div class="column-table-cell">{{ searchHit.smiles }}</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="column-table-header">Structure</div>
+									<div class="column-table-cell"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item-wrapper">
+						<div class="content-item-header">
+							<img src="/icon/icon-taxonomy.svg">
+							<span>Chemical Taxonomy</span>
+						</div>
+						<div class="content-item">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-title">NP Classifier</div>
+								</div>
+								<div class="card-body">
+									<div class="border-card-green">
+										<div style="height:100px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item-wrapper">
+						<div class="content-item-header">
+							<img src="/icon/icon-spectra.svg">
+							<span>Experimental MS1 Spectra</span>
+						</div>
+						<div class="content-item">
+							<div class="flex" style="gap:20px;">
+								<div class="card" style="width:50%;">
+									<div class="card-header">
+										<div class="card-title flex-center">
+											<img src="/icon/icon-title.svg">
+											<span>Positive MS1</span>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="spectra-container"></div>
+										<div class="column-table">
+											<div class="flex-center">
+												<div class="column-table-header">In-source Fragmentation:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Instrument:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Ion source:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Resolution:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Capillary temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Heater temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Creation time:</div>
+												<div class="column-table-cell"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card" style="width:50%;">
+									<div class="card-header">
+										<div class="card-title">
+											<img src="/icon/icon-title.svg">
+											<span>Negative MS1</span>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="spectra-container"></div>
+										<div class="column-table">
+											<div class="flex-center">
+												<div class="column-table-header">In-source Fragmentation:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Instrument:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Ion source:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Resolution:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Capillary temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Heater temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Creation time:</div>
+												<div class="column-table-cell"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item-wrapper">
+						<div class="content-item-header">
+							<img src="/icon/icon-reference.svg">
+							<span>Reference</span>
+						</div>
+						<div class="content-item">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-title">
+										<img src="/icon/icon-pmid.svg">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="position:relative;">
+				<div class="directory">
+					<div class="directory-header">CONTENTS</div>
+					<div class="directory-item">ID and Overview</div>
+					<div class="directory-item">Chemical Identifiers</div>
+					<div class="directory-item">Chemical Taxonomy</div>
+					<div class="directory-item">Experimental MS1 Spectra</div>
+					<div class="directory-item">Experimental MS2 Spectra</div>
+					<div class="directory-item">Main Species</div>
+					<div class="directory-item">Bioactivities</div>
+					<div class="directory-item">References</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

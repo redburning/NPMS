@@ -1,0 +1,123 @@
+<div>
+	<div class="search-banner">
+		<div class="search-box">
+	    	<div class="display-flex search-container">
+		        <el-input v-model="keyword"></el-input>
+		        <el-button type="primary" class="flex-center icon-search search-btn-dark" @click="onSearchBtnClick">
+		        	<span class="f-1125">Search</span>
+		        </el-button>
+		    </div>
+		</div>
+	</div>
+	
+	<div class="search-box-fixed" :style="{ display: showFixedSearchBanner ? 'block' : 'none' }">
+		<div style="padding:15px 120px;">
+			<div class="flex-center search-container">
+				<img src="/assets/image/logo-dark.svg" style="height:28px; margin-right:15px;">
+		        <el-input v-model="keyword" style="height:40px;"></el-input>
+		        <el-button type="primary" class="flex-center icon-search" @click="onSearchBtnClick" style="height:40px !important;">
+		        	<span class="f-1125">Search</span>
+		        </el-button>
+		    </div>
+		</div>
+	</div>
+	
+	<div class="content-container">
+		<div class="search-result-desc">Found {{ page.total }} results</div>
+		<div class="divide-line"></div>
+		<div class="search-result">
+			<div v-for="item in searchResult" class="search-result-list-item">
+				<div class="search-result-list-item-header flex-center flex-between">
+					<div class="flex">
+						<div class="search-result-list-item-title">{{ item.ipt }}</div>
+						<div class="search-result-list-item-subtitle">{{ item.englishName }}</div>
+					</div>
+					<el-button type="plain" size="mini" class="plain-button" @click="gotoDetails(item)">More</el-button>
+				</div>
+				<div class="search-result-list-item-body">
+					<div>
+						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">English Name: </span>
+   								<span v-html="item.englishName"></span>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">Chinese Name: </span>
+   								<span v-html="item.chineseName"></span>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+ 								<span class="f-medium">Chinese Name Alias: </span>
+ 								<span v-html="item.chineseNameAlias"></span>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">Pathway: </span>
+   								<span v-html="item.pathway"></span>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">PubChem CID: </span>
+   								<a class="f-medium" :href="'https://pubchem.ncbi.nlm.nih.gov/#query=' + item.pubChemCID " target="_blank" v-html="item.pubChemCID"></a>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">Lotus ID: </span>
+   								<a class="f-medium" :href="'https://lotus.naturalproducts.net/compound/lotus_id/' + item.lotus " target="_blank" v-html="item.lotus"></a>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+  								<span class="f-medium">Formula: </span>
+  								<span v-html="item.molecularFormula"></span>   								
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+  								<span class="f-medium">SMILES: </span>
+  								<span v-html="item.smiles"></span>   								
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">Super Class: </span>
+   								<span v-html="item.superclass"></span>
+   							</div>
+   						</div>
+   						<div class="f-0875">
+   							<div class="p-xsm-top p-xsm-bottom inline-block">
+   								<span class="f-medium">Class: </span>
+   								<span v-html="item.class"></span>
+   							</div>
+   						</div>
+					</div>
+					<div class="search-result-list-item-img-container">
+						<img :src="'/assets/img/' + item.ipt + '.png'" @error="handleImageError" style="width:200px;">
+					</div>
+				</div>
+				<div class="search-result-list-item-footer"></div>
+			</div>
+		</div>
+		<div class="justify-content-center">
+			<el-pagination background layout="prev, pager, next" :total="page.total" :current-page="page.currentPage" @current-change="handleCurrentPageChange">
+			</el-pagination>
+		</div>
+		
+		<!-- 
+		<el-button size="mini" class="el-btn-plain" @click="downloadMolFile(item.molFile)">
+			<div class="flex-center">
+				<span style="margin-right:8px;">
+					<svg t="1732686559099" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2626" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><path d="M1024 896v128H0v-320h128v192h768v-192h128v192zM576 554.688L810.688 320 896 405.312l-384 384-384-384L213.312 320 448 554.688V0h128v554.688z" fill="#1f62e0" p-id="2627"></path></svg>
+				</span>
+				<span>Mol File</span>
+			</div>
+		</el-button>
+		-->
+    </div>
+</div>

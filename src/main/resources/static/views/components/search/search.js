@@ -1,11 +1,18 @@
 define(function(require){
 	var vue = require("vue");
+	require('css!/views/components/search/search.css');
 	return vue.extend({
-		template: require('text!/src/components/query/query.html'),
+		template: require('text!/views/components/search/search.html'),
 		data () {
 			return {
 				keyword: '',
-				searchResult: []
+				page: {
+					currentPage: 1,
+				    pageSize: 10,
+					total: 0,
+				},
+				searchResult: [],
+				showFixedSearchBanner: false
 			}
 		},
 		mounted() {
@@ -20,16 +27,45 @@ define(function(require){
         		}
         	};
 		},
+		beforeRouteEnter(to, from, next) {
+			next(vm => {
+				window.addEventListener('scroll', vm.handleScroll);
+			});
+		},
+		beforeRouteLeave(to, from, next) {
+		    window.removeEventListener('scroll', this.handleScroll);
+		    next();
+		},
 		methods: {
+			handleScroll() {
+			    this.showFixedSearchBanner = window.scrollY > 180;
+			},
 			onSearchBtnClick() {
+				this.getTotlaCount(this.keyword);
+				this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+			},
+			getTotlaCount(keyword) {
+				var self = this;
+				this.$http.get('/docs/count?keyword=' + keyword)
+				    .then(response => {
+					    if (!!response.data) {
+						    var responseData = response.data;
+							self.page.total = responseData.data;
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			},
+			getSearchHits(keyword, page, size) {
 				var self = this;
 				self.searchResult = [];
-				this.$http.get('/docs/search?keyword=' + this.keyword)
+				this.$http.get('/docs/search?keyword=' + keyword + '&page=' + page + '&size=' + size)
 					.then(response => {
 						if (!!response.data) {
 							var responseData = response.data;
 							// 遍历每个结果项
-							responseData.forEach(item => {
+							responseData.data.forEach(item => {
 							    // 遍历 highlightFields 中的每个字段
 							    for (const [field, highlightedValues] of Object.entries(item.highlightFields)) {
 							        // 使用高亮内容替换原来的内容
@@ -43,6 +79,10 @@ define(function(require){
 						console.log(error);
 					});
 			},
+			handleCurrentPageChange(current) {
+				this.page.currentPage = current;
+				this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+			},
 			truncateMessage(message) {
 				if (message.indexOf('span') != -1) {
 					return message.substring(0, message.lastIndexOf('</span>') + 100) + '...';
@@ -52,8 +92,13 @@ define(function(require){
 				return message;
 			},
 		    handleImageError(event) {
-		    	event.target.src = '/assets/img/no-img.svg'; // 使用默认占位图
-		    	event.target.style = 'width:40px;';
+				// 尝试加载 .png 图片
+		      	event.target.src = event.target.src.replace(/\.png$/, '.svg');
+		      	event.target.onerror = () => {
+		        	// 如果 .png 也加载失败，使用默认占位图
+		        	event.target.src = '/assets/img/no-img.svg';
+		        	event.target.style = 'width:40px;';
+		      	};
 		    },
 		    downloadMolFile(molFile) {
 		    	if (!molFile.endsWith('.mol')) {
@@ -85,9 +130,7 @@ define(function(require){
 				this.$router.push({ path: '/home'});
 			},
 			gotoDetails(item) {
-				//this.$router.push({ path: '/details', query: item, append: true });
-				const query = new URLSearchParams(item).toString();
-				const url = `/#/details?${query}`;
+				const url = `/#/details?ipt=${encodeURIComponent(item.ipt)}`;
 				window.open(url, '_blank');
 			}
 		}

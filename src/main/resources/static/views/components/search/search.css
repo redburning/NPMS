@@ -1,0 +1,118 @@
+.search-banner {
+	background-image: url('/assets/image/banner_bg.png');
+    background-size: cover;
+    height: 120px;
+    margin-top: 60px;
+}
+
+.search-box {
+	margin-left: 25%;
+	margin-right: 25%;
+	padding-top: 97px;
+}
+
+.search-box-fixed {
+	display: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: white;
+	box-shadow: 0 8px 6px -6px rgba(174,176,181,.5);
+	z-index: 201;
+}
+
+.content-container {
+    margin-top: 40px;
+    margin-bottom: 50px;
+    padding-left: 120px;
+    padding-right: 120px;
+}
+
+.search-result {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.search-result-desc {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-weight: 500;
+}
+
+.search-result-list-item {
+	flex-basis: 49%;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+	border-radius: 5px;
+	position: relative;
+}
+
+.search-result-list-item-header {
+	background-color: #f5fafa;
+	padding: 8px 20px;
+}
+
+.search-result-list-item-body {
+	padding: 20px 20px 20px 50px;
+	margin-bottom: 30px;
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
+
+.search-result-list-item-body span {
+    word-break: break-all;
+}
+
+.search-result-list-item-img-container {
+	width: 200px;
+	max-width: 200px;
+	text-align: right;
+	flex-shrink: 0;
+}
+
+.search-result-list-item-footer {
+	background-color: #e6f5d7;
+	height: 30px;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+}
+
+.search-result-list-item-title {
+	color: white;
+	font-size: 16px;
+	padding: 5px 10px;
+	color: white;
+	background-color: #82b91e;
+	border-radius: 5px;
+}
+
+.search-result-list-item-subtitle {
+	font-size: 20px;
+	color: #064f37;
+	font-weight: 600;
+	margin-left: 20px;
+}
+
+.plain-button {
+	border: 1px solid #366455 !important;
+	border-radius: 5px !important;
+	color: #366455 !important;
+	padding: 5px 12px !important;
+    font-weight: 500 !important;
+}
+
+.plain-button:hover {
+	background-color: rgba(230, 245, 215, 0.2) !important;
+}
+
+.divide-line {
+	background-color: #acb3bd;
+    height: 1px;
+    opacity: .5;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

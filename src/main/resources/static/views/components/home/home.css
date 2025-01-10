@@ -1,0 +1,80 @@
+.img-gallery-wrapper {
+	display: flex;
+	justify-content: center;
+	padding: 80px 120px;
+}
+
+.img-gallery {
+	overflow: hidden;
+	position: relative;
+  	transition: transform 0.5s ease-in-out;
+}
+
+.img-container {
+	display: flex;
+	gap: 20px;
+	position: relative;
+	left: 0;
+	transition: left 0.5s ease-in-out;
+}
+
+.img-container img {
+ 	height: auto;
+  	object-fit: cover;
+}
+
+@media (max-width: 2048px) {
+	.img-gallery {
+		width: calc(280px * 4 + 60px);
+	}
+	
+	.img-container {
+		width: calc(280px * 4 + 60px); /* 这里的n应该设置为图片总数 */
+	}
+	
+    .img-container img {
+        width: 280px;
+    }
+}
+
+@media (max-width: 1600px) {
+	.img-gallery {
+		width: calc(240px * 4 + 60px);
+	}
+	
+	.img-container {
+		width: calc(240px * 4 + 60px); /* 这里的n应该设置为图片总数 */
+	}
+	
+    .img-container img {
+        width: 240px;
+    }
+}
+
+@media (max-width: 1200px) {
+	.img-gallery {
+		width: calc(200px * 4 + 60px);
+	}
+	
+	.img-container {
+		width: calc(200px * 4 + 60px); /* 这里的n应该设置为图片总数 */
+	}
+	
+    .img-container img {
+        width: 200px;
+    }
+}
+
+@media (max-width: 900px) {
+	.img-gallery {
+		width: calc(150px * 4 + 60px);
+	}
+	
+	.img-container {
+		width: calc(150px * 4 + 60px); /* 这里的n应该设置为图片总数 */
+	}
+	
+    .img-container img {
+        width: 150px;
+    }
+}

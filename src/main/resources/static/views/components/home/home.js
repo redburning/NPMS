@@ -1,12 +1,15 @@
 define(function(require){
 	var vue = require("vue");
 	var Vuex = require("vuex");
+	require('css!/views/components/home/home.css');
 	return vue.extend({
-		template: require('text!/src/components/home/home.html'),
+		template: require('text!/views/components/home/home.html'),
 		data () {
 			return {
 				keyword: '',
 				showHistory: false,		// 显示历史搜索项
+				pageNum: 0,
+				pageSize: 10
 			}
 		},
 		computed: {
@@ -21,6 +24,12 @@ define(function(require){
         			self.onSearchBtnClick();
         		}
         	};
+			
+			this.carouselGallery();
+			window.addEventListener('resize', this.carouselGallery());
+		},
+		beforeDestory() {
+			window.removeEventListener('resize', this.carouselGallery());
 		},
 		methods: {
 			onSearchBtnClick() {
@@ -30,9 +39,11 @@ define(function(require){
 					this.$store.dispatch('addSearchHistory', this.keyword);
 					
 					this.$router.push({
-						path: '/query',
+						path: '/search',
 						query: {
-							keyword: this.keyword
+							keyword: this.keyword,
+							page: this.pageNum,
+							size: this.pageSize
 						}
 					});
 				}
@@ -56,6 +67,29 @@ define(function(require){
 			clearSearchHistory() {
 				this.$store.dispatch('clearSearchHistory');
 				this.showHistory = false;
+			},
+			carouselGallery () {
+				const container = document.getElementById('imgContainer');
+		        const imgWidth = container.querySelector('img').clientWidth;
+				const gap = 20;
+		        let currentLeft = 0;
+				offsetResetThreshold = imgWidth * 4 + gap * 3;
+
+		        function scrollGallery(direction) {
+		            if (direction === 'next') {
+		                currentLeft -= imgWidth + gap;
+		                if (currentLeft < -offsetResetThreshold) {
+		                    currentLeft = 0;
+							container.style.transition = 'unset';
+		                } else {
+							container.style.transition = 'left 0.5s ease-in-out';
+						}
+		            }
+		            container.style.left = currentLeft + 'px';
+		        }
+
+		        // Auto scroll every 5 seconds
+		        setInterval(() => scrollGallery('next'), 5000);
 			}
 		}
 	});
