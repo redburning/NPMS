@@ -15,9 +15,10 @@ import redburning.github.io.npms.entity.DocumentEntity;
 
 public interface DocumentRepository extends ElasticsearchRepository<DocumentEntity, String> {
 
-	@Query("{ \"query_string\": {\"query\": \"?0\", \"fields\": [\"*\"] } }")
+	@Query("{ \"query_string\": {\"query\": \"?0\", \"fields\": [\"*\"] } }, "
+			+ "\"_source\": { \"excludes\": [\"ms1PositiveData\", \"ms1NegativeData\", \"ms2PositiveData\", \"ms2NegativeData\"] }")
 	@Highlight(
-			fields = { 
+			fields = {
 					@HighlightField(name = "id"), 
 					@HighlightField(name = "number"),
 					@HighlightField(name = "mixedName"), 
@@ -42,12 +43,20 @@ public interface DocumentRepository extends ElasticsearchRepository<DocumentEnti
 					@HighlightField(name = "smiles"),
 					@HighlightField(name = "inChIKey"),
 					@HighlightField(name = "message") }, 
-	parameters = @HighlightParameters(
-			preTags = {"<span class='highlight'>" }, 
-			postTags = { "</span>" }, numberOfFragments = 0))
+			parameters = @HighlightParameters(
+					preTags = {"<span class='highlight'>" }, 
+					postTags = { "</span>" }, numberOfFragments = 0)
+			)
 	List<SearchHit<DocumentEntity>> searchFullText(String keyword, Pageable pageable);
+	
+	
+	@Query("{ \"match\": {\"ipt\": \"?0\" } }")
+	@Highlight(fields = { @HighlightField(name = "ipt") }, 
+			   parameters = @HighlightParameters(preTags = {"<span class='highlight'>" }, postTags = { "</span>" }, numberOfFragments = 0))
+	List<SearchHit<DocumentEntity>> searchByIpt(String ipt);
+	
 	
 	@Query("{ \"query_string\": {\"query\": \"?0\", \"fields\": [\"*\"] } }")
 	SearchHits<DocumentEntity> countTotalHits(String keyword);
-
+	
 }

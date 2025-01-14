@@ -31,6 +31,16 @@ public class DocumentController {
 		}
 	}
 	
+	@GetMapping("/searchIpt")
+	public Result searchByIpt(@RequestParam String ipt) {
+		try {
+			List<SearchHit<DocumentEntity>> searchHits = documentService.searchByIpt(ipt);
+			return Result.success(searchHits);
+		} catch (Exception e) {
+			return Result.error(e.getMessage());
+		}
+	}
+	
 	@GetMapping("/count")
     public Result getTotalHits(@RequestParam String keyword) {
 		try {
@@ -40,5 +50,15 @@ public class DocumentController {
 			return Result.error(e.getMessage());
 		}
     }
+	
+	@GetMapping("/suggest")
+	public Result getSuggestions(@RequestParam String keyword) {
+		try {
+			List<String> suggestions = documentService.getSuggestions(keyword);
+			return Result.success(suggestions);
+		} catch (Exception e) {
+			return Result.error(e.getMessage());
+		}
+	}
 	
 }

@@ -9,7 +9,8 @@ define(function(require){
 				keyword: '',
 				showHistory: false,		// 显示历史搜索项
 				pageNum: 0,
-				pageSize: 10
+				pageSize: 10,
+				suggestOptions: []
 			}
 		},
 		computed: {
@@ -62,34 +63,53 @@ define(function(require){
 			onSearchInputBlur() {
 				setTimeout(() => {
 					this.showHistory = false;
+					this.suggestOptions = [];
 				}, 200);
+			},
+			onKeywordSuggest() {
+				var self = this;
+				this.$http.get('/docs/suggest?keyword=' + self.keyword)
+				    .then(response => {
+					    if (!!response.data) {
+						    var responseData = response.data;
+							self.suggestOptions = responseData.data;
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
 			},
 			clearSearchHistory() {
 				this.$store.dispatch('clearSearchHistory');
 				this.showHistory = false;
 			},
-			carouselGallery () {
-				const container = document.getElementById('imgContainer');
-		        const imgWidth = container.querySelector('img').clientWidth;
-				const gap = 20;
-		        let currentLeft = 0;
-				offsetResetThreshold = imgWidth * 4 + gap * 3;
-
-		        function scrollGallery(direction) {
-		            if (direction === 'next') {
-		                currentLeft -= imgWidth + gap;
-		                if (currentLeft < -offsetResetThreshold) {
-		                    currentLeft = 0;
-							container.style.transition = 'unset';
-		                } else {
-							container.style.transition = 'left 0.5s ease-in-out';
-						}
-		            }
-		            container.style.left = currentLeft + 'px';
-		        }
-
-		        // Auto scroll every 5 seconds
-		        setInterval(() => scrollGallery('next'), 5000);
+			carouselGallery() {
+			    let currentLeft = 0;
+			    const gap = 20;
+			    const imgWidthKey = 'clientWidth';
+			    const containerId = 'imgContainer';
+			    const multiplier = 4;
+			    function scrollGallery(direction) {
+			        const container = document.getElementById(containerId);
+					if (container !== null) {
+						const imgWidth = container.querySelector('img')[imgWidthKey];
+				        const offsetThreshold = imgWidth * multiplier + gap * (multiplier - 1);
+						
+				        if (direction === 'next') {
+				            currentLeft -= (imgWidth + gap);
+				            if (currentLeft < -offsetThreshold) {
+				                currentLeft = 0;
+				                container.style.transition = 'unset';
+				                setTimeout(() => {
+				                    container.style.transition = 'left 0.5s ease-in-out';
+				                }, 50);
+				            }
+				        }
+				        container.style.left = currentLeft + 'px';
+					}
+			    }
+			    // Auto scroll every 5 seconds
+			    setInterval(() => scrollGallery('next'), 5000);
 			}
 		}
 	});

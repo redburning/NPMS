@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,9 +97,17 @@ public class DocumentEntity {
     
     private Double esiPositiveNegativeRatio;
     
-    private String message;
+    private JSONObject suggest;
     
-    private transient List<String> stringFieldValues = new ArrayList<>();
+    private JSONObject ms1PositiveData;
+    
+    private JSONObject ms1NegativeData;
+    
+    private JSONObject ms2PositiveData;
+    
+    private JSONObject ms2NegativeData;
+    
+    private transient List<String> suggestFieldValues = new ArrayList<>();
 
     public String getNumber() {
 		return number;
@@ -184,8 +193,8 @@ public class DocumentEntity {
 		return pubChemCID;
 	}
 
-	public void setPubChemCID(Double pubChemCID) {
-		this.pubChemCID = String.valueOf(pubChemCID).replace(".0", "");
+	public void setPubChemCID(String pubChemCID) {
+		this.pubChemCID = pubChemCID;
 	}
 
 	public String getLotus() {
@@ -388,22 +397,54 @@ public class DocumentEntity {
 		this.esiPositiveNegativeRatio = esiPositiveNegativeRatio;
 	}
 	
-	public String getMessage() {
-		return message;
+	public JSONObject getSuggest() {
+		return suggest;
 	}
 	
-	public void setMessage(String message) {
-		this.message = message;
+	public void setSuggest(JSONObject suggest) {
+		this.suggest = suggest;
 	}
 	
-	public void addStringFieldValues(String value) {
+	public void addSuggestFieldValues(String value) {
 		if (StringUtils.isNotEmpty(value)) {
-			this.stringFieldValues.add(value);
+			this.suggestFieldValues.add(value);
 		}
 	}
 	
-	public List<String> getStringFieldValues() {
-		return stringFieldValues;
+	public List<String> getSuggestFieldValues() {
+		return suggestFieldValues;
+	}
+	
+	public JSONObject getMs1PositiveData() {
+		return ms1PositiveData;
+	}
+	
+	public void setMs1PositiveData(JSONObject ms1PositiveData) {
+		this.ms1PositiveData = ms1PositiveData;
+	}
+	
+	public JSONObject getMs1NegativeData() {
+		return ms1NegativeData;
+	}
+	
+	public void setMs1NegativeData(JSONObject ms1NegativeData) {
+		this.ms1NegativeData = ms1NegativeData;
+	}
+	
+	public JSONObject getMs2PositiveData() {
+		return ms2PositiveData;
+	}
+	
+	public void setMs2PositiveData(JSONObject ms2PositiveData) {
+		this.ms2PositiveData = ms2PositiveData;
+	}
+	
+	public JSONObject getMs2NegativeData() {
+		return ms2NegativeData;
+	}
+	
+	public void setMs2NegativeData(JSONObject ms2NegativeData) {
+		this.ms2NegativeData = ms2NegativeData;
 	}
 	
 	@Override

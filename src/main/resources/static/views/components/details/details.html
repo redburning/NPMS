@@ -9,7 +9,7 @@
 					</div>
 				</div>
 				<div class="content-body">
-					<div class="content-item-wrapper">
+					<div id="overview" ref="overview" class="content-item-wrapper scroll-margin">
 						<div class="content-item-header">
 							<img src="/icon/icon-id.svg">
 							<span>ID and Overview</span>
@@ -61,7 +61,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="content-item-wrapper">
+					<div id="identifiers" ref="identifiers" class="content-item-wrapper scroll-margin">
 						<div class="content-item-header">
 							<img src="/icon/icon-chemical.svg">
 							<span>Chemical Identifiers</span>
@@ -103,7 +103,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="content-item-wrapper">
+					<div id="taxonomy" ref="taxonomy" class="content-item-wrapper scroll-margin">
 						<div class="content-item-header">
 							<img src="/icon/icon-taxonomy.svg">
 							<span>Chemical Taxonomy</span>
@@ -121,7 +121,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="content-item-wrapper">
+					<div id="ms1" ref="ms1" class="content-item-wrapper scroll-margin">
 						<div class="content-item-header">
 							<img src="/icon/icon-spectra.svg">
 							<span>Experimental MS1 Spectra</span>
@@ -136,7 +136,7 @@
 										</div>
 									</div>
 									<div class="card-body">
-										<div class="spectra-container"></div>
+										<div id="plotly-ms1-positive" class="spectrum-container"></div>
 										<div class="column-table">
 											<div class="flex-center">
 												<div class="column-table-header">In-source Fragmentation:</div>
@@ -171,13 +171,13 @@
 								</div>
 								<div class="card" style="width:50%;">
 									<div class="card-header">
-										<div class="card-title">
+										<div class="card-title flex-center">
 											<img src="/icon/icon-title.svg">
 											<span>Negative MS1</span>
 										</div>
 									</div>
 									<div class="card-body">
-										<div class="spectra-container"></div>
+										<div id="plotly-ms1-negative" class="spectrum-container"></div>
 										<div class="column-table">
 											<div class="flex-center">
 												<div class="column-table-header">In-source Fragmentation:</div>
@@ -213,7 +213,99 @@
 							</div>
 						</div>
 					</div>
-					<div class="content-item-wrapper">
+					<div id="ms2" ref="ms2" class="content-item-wrapper scroll-margin">
+						<div class="content-item-header">
+							<img src="/icon/icon-spectra.svg">
+							<span>Experimental MS2 Spectra</span>
+						</div>
+						<div class="content-item">
+							<div class="flex" style="gap:20px;">
+								<div class="card" style="width:50%;">
+									<div class="card-header">
+										<div class="card-title flex-center">
+											<img src="/icon/icon-title.svg">
+											<span>Positive MS2</span>
+										</div>
+									</div>
+									<div class="card-body">
+										<div id="plotly-ms2-positive" class="spectrum-container"></div>
+										<div class="column-table">
+											<div class="flex-center">
+												<div class="column-table-header">In-source Fragmentation:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Instrument:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Ion source:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Resolution:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Capillary temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Heater temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Creation time:</div>
+												<div class="column-table-cell"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card" style="width:50%;">
+									<div class="card-header">
+										<div class="card-title flex-center">
+											<img src="/icon/icon-title.svg">
+											<span>Negative MS2</span>
+										</div>
+									</div>
+									<div class="card-body">
+										<div id="plotly-ms2-negative" class="spectrum-container"></div>
+										<div class="column-table">
+											<div class="flex-center">
+												<div class="column-table-header">In-source Fragmentation:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Instrument:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Ion source:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Resolution:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Capillary temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Heater temp:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="column-table-border-top flex-center">
+												<div class="column-table-header">Creation time:</div>
+												<div class="column-table-cell"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item-wrapper scroll-margin">
 						<div class="content-item-header">
 							<img src="/icon/icon-reference.svg">
 							<span>Reference</span>
@@ -233,14 +325,11 @@
 			<div style="position:relative;">
 				<div class="directory">
 					<div class="directory-header">CONTENTS</div>
-					<div class="directory-item">ID and Overview</div>
-					<div class="directory-item">Chemical Identifiers</div>
-					<div class="directory-item">Chemical Taxonomy</div>
-					<div class="directory-item">Experimental MS1 Spectra</div>
-					<div class="directory-item">Experimental MS2 Spectra</div>
-					<div class="directory-item">Main Species</div>
-					<div class="directory-item">Bioactivities</div>
-					<div class="directory-item">References</div>
+					<div v-for="item in directoryItems" :key="item.id">
+						<a @click="navigateToSection(item.id)">
+							<div :class="{ 'directory-item': true, 'directory-item-active': item.active }">{{ item.label }}</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>

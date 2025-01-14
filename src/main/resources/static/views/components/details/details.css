@@ -22,12 +22,18 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 	font-weight: 500;
 	color: #343434;
+	cursor: pointer;
 }
 
 .directory-item:hover {
 	color: #064f37;
 	background-color: #e6f0d7;
-	cursor: pointer;
+}
+
+.directory-item-active {
+	color: #064f37;
+	background-color: #e6f0d7;
+	border-left: 2px solid #064f37;
 }
 
 .content-wrapper {
@@ -151,6 +157,10 @@
 	padding: 12px 15px;
 }
 
+.spectrum-container {
+	min-height: 450px;
+}
+
 .border-card-green {
 	border-radius: 5px;
 	border: 1px solid #91b455;
@@ -159,6 +169,7 @@
 	background-color: #f0faf5;
 }
 
-.spectra-container {
-	height: 400px;
+.scroll-margin {
+	scroll-margin-top: 100px;
 }
+

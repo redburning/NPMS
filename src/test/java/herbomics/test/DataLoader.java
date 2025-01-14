@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.alibaba.fastjson.JSONObject;
+
+import herbomics.test.ms1.MS1Converter;
+import herbomics.test.ms2.MS2Converter;
 import redburning.github.io.npms.entity.DocumentEntity;
+import umich.ms.fileio.exceptions.FileParsingException;
 
 public class DataLoader {
 
@@ -29,6 +35,9 @@ public class DataLoader {
 	}
 	
 	private List<DocumentEntity> parse(Workbook workbook) {
+		MS1Converter ms1Converter = new MS1Converter();
+		MS2Converter ms2Converter = new MS2Converter();
+		
         List<DocumentEntity> documentEntityList = new ArrayList<>();
         Sheet sheet = workbook.getSheetAt(0);
 
@@ -48,7 +57,7 @@ public class DataLoader {
             setEntityStringValue(documentEntity, row, 7, DocumentEntity::setPathway);
             setEntityStringValue(documentEntity, row, 8, DocumentEntity::setSuperclass);
             setEntityStringValue(documentEntity, row, 9, DocumentEntity::setClazz);
-            setEntityDoubleValue(documentEntity, row, 10, DocumentEntity::setPubChemCID);
+            setEntityStringValue(documentEntity, row, 10, DocumentEntity::setPubChemCID);
             setEntityStringValue(documentEntity, row, 11, DocumentEntity::setLotus);
             setEntityStringValue(documentEntity, row, 12, DocumentEntity::setWikidata);
             setEntityStringValue(documentEntity, row, 13, DocumentEntity::setSpecies1);
@@ -75,8 +84,28 @@ public class DataLoader {
             setEntityDoubleValue(documentEntity, row, 34, DocumentEntity::setRt);
             setEntityDoubleValue(documentEntity, row, 35, DocumentEntity::setEsiPositiveNegativeRatio);
             
-            // 补充message字段内容
-            documentEntity.setMessage(String.join("; ", documentEntity.getStringFieldValues()));
+            // 补充suggest字段内容
+            JSONObject suggest = new JSONObject();
+            suggest.put("input", documentEntity.getSuggestFieldValues());
+            documentEntity.setSuggest(suggest);
+            
+            // 补充一级数据
+            String ipt = row.getCell(3).getStringCellValue();
+            try {
+				JSONObject ms1PositiveData = ms1Converter.convertPositiveData(ipt);
+				documentEntity.setMs1PositiveData(ms1PositiveData);
+				
+				JSONObject ms1NegativeData = ms1Converter.convertNegativeData(ipt);
+				documentEntity.setMs1NegativeData(ms1NegativeData);
+			} catch (FileParsingException e) {
+				e.printStackTrace();
+			}
+            
+            // 补充二级数据
+            JSONObject ms2PositiveData = ms2Converter.convertData(ipt, "+");
+            documentEntity.setMs2PositiveData(ms2PositiveData);
+            JSONObject ms2NegativeData = ms2Converter.convertData(ipt, "-");
+            documentEntity.setMs2NegativeData(ms2NegativeData);
             
             documentEntityList.add(documentEntity);
         }
@@ -96,14 +125,24 @@ public class DataLoader {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setEntityStringValue(DocumentEntity entity, Row row, int cellIndex,
 			BiConsumer<DocumentEntity, String> setter) {
 		try {
 			Cell cell = row.getCell(cellIndex);
+			
+			// pubChemID列特殊处理
+			if (cellIndex == 10) {
+				cell.setCellType(CellType.STRING);
+			}
 			if (cell != null) {
 				String value = cell.getStringCellValue();
 				setter.accept(entity, value);
-				entity.addStringFieldValues(value);
+				
+				// 不处理pubChemID列
+				if (cellIndex != 10) {
+					entity.addSuggestFieldValues(value);
+				}
 			}
 		} catch (Exception e) {
 			setter.accept(entity, null);

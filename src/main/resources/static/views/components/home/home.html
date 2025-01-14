@@ -8,8 +8,10 @@
 				</div>
 			    <div class="display-flex">
 			    	<div class="flex-1" style="position:relative;">
-			    		<el-input v-model="keyword" style="height:100%;" @keydown="onSearchBtnClick" @focus="onSearchInputFocus" @blur="onSearchInputBlur"></el-input>
-			    		<div id="search-history" v-if="showHistory===true">
+			    		<el-input v-model="keyword" style="height:100%;" 
+			    			@keydown="onSearchBtnClick" @focus="onSearchInputFocus" @blur="onSearchInputBlur" @input="onKeywordSuggest">
+			    		</el-input>
+			    		<div class="search-history" v-if="showHistory===true">
 		    				<ul class="unstyled-list">
 		    					<div class="search-history-list-container">
 		    						<li v-for="(item,index) in searchHistory" :key="index" class="search-history-item" @click="quickSearch(item)">
@@ -20,6 +22,15 @@
 					    	<div class="search-hitory-close">
 					    		<div @click="clearSearchHistory">清空历史</div>
 					    	</div>
+					    </div>
+					    <div class="search-history" v-if="suggestOptions.length > 0 && keyword.trim().length > 0">
+		    				<ul class="unstyled-list">
+		    					<div class="search-history-list-container">
+		    						<li v-for="(item,index) in suggestOptions" :key="index" class="search-history-item" @click="quickSearch(item)">
+						    			{{ item }}
+						    		</li>
+		    					</div>
+					    	</ul>
 					    </div>
 			    	</div>
 			        <el-button type="primary" class="flex-center icon-search" @click="onSearchBtnClick">

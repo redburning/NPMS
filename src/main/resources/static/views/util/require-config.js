@@ -11,7 +11,8 @@ require = {
 	    "text": "require/text@2.0.15",
 		'css': 'require/require-css@0.1.2',
 		"bootstrap": "bootstrap/bootstrap.bundle@4.5.2.min",
-		"bootstrap-treeview": "bootstrap-treeview/bootstrap-treeview@1.2.0.min"
+		"bootstrap-treeview": "bootstrap-treeview/bootstrap-treeview@1.2.0.min",
+		"plotly": "plotly/plotly@2.35.2.min"
   	},
   	shim: {
 	    'vue-resource': {
