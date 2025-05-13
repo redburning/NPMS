@@ -29,7 +29,7 @@
 			<div v-for="item in searchResult" class="search-result-list-item">
 				<div class="search-result-list-item-header flex-center flex-between">
 					<div class="flex-center">
-						<div class="search-result-list-item-title">{{ item.ipt }}</div>
+						<div class="search-result-list-item-title" @click="gotoDetails(item)">{{ item.ipt }}</div>
 						<div class="search-result-list-item-subtitle">{{ item.englishName }}</div>
 					</div>
 					<el-button type="plain" size="mini" class="plain-button" @click="gotoDetails(item)">More</el-button>
@@ -56,12 +56,6 @@
    						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">Pathway: </span>
-   								<span v-html="item.pathway"></span>
-   							</div>
-   						</div>
-   						<div class="f-0875">
-   							<div class="p-xsm-top p-xsm-bottom inline-block">
    								<span class="f-medium">PubChem CID: </span>
    								<a class="f-medium" :href="'https://pubchem.ncbi.nlm.nih.gov/#query=' + item.pubChemCID " target="_blank" v-html="item.pubChemCID"></a>
    							</div>
@@ -76,24 +70,6 @@
    							<div class="p-xsm-top p-xsm-bottom inline-block">
   								<span class="f-medium">Formula: </span>
   								<span v-html="item.molecularFormula"></span>   								
-   							</div>
-   						</div>
-   						<div class="f-0875">
-   							<div class="p-xsm-top p-xsm-bottom inline-block">
-  								<span class="f-medium">SMILES: </span>
-  								<span v-html="item.smiles"></span>   								
-   							</div>
-   						</div>
-   						<div class="f-0875">
-   							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">Super Class: </span>
-   								<span v-html="item.superclass"></span>
-   							</div>
-   						</div>
-   						<div class="f-0875">
-   							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">Class: </span>
-   								<span v-html="item.class"></span>
    							</div>
    						</div>
 					</div>

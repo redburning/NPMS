@@ -53,11 +53,12 @@
 }
 
 .search-result-list-item-body {
-	padding: 20px 20px 20px 50px;
+	padding: 10px 20px 10px 40px;
 	margin-bottom: 30px;
 	display: flex;
 	gap: 10px;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .search-result-list-item-body span {
@@ -86,6 +87,7 @@
 	color: white;
 	background-color: #82b91e;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 .search-result-list-item-subtitle {

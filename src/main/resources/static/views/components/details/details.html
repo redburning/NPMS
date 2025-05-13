@@ -327,7 +327,9 @@
 					<div class="directory-header">CONTENTS</div>
 					<div v-for="item in directoryItems" :key="item.id">
 						<a @click="navigateToSection(item.id)">
-							<div :class="{ 'directory-item': true, 'directory-item-active': item.active }">{{ item.label }}</div>
+							<div class="flex-center directory-item" :class="{ 'directory-item-active': item.active }">
+								<img :src="item.icon" style="margin-right: 8px;">{{ item.label }}
+							</div>
 						</a>
 					</div>
 				</div>

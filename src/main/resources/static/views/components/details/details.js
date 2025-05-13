@@ -7,17 +7,17 @@ define(function(require){
 			return {
 				searchHit: {},
 				directoryItems: [
-					{ id: 'overview', label: 'ID and Overview', active: true },
-					{ id: 'identifiers', label: 'Chemical Identifiers', active: false },
-					{ id: 'taxonomy', label: 'Chemical Taxonomy', active: false },
-					{ id: 'ms1', label: 'Experimental MS1 Spectra', active: false },
-					{ id: 'ms2', label: 'Experimental MS2 Spectra', active: false }
+					{ id: 'overview', label: 'ID and Overview', active: true, icon: '/icon/icon-id.svg' },
+					{ id: 'identifiers', label: 'Chemical Identifiers', active: false, icon: '/icon/icon-chemical.svg' },
+					{ id: 'taxonomy', label: 'Chemical Taxonomy', active: false, icon: '/icon/icon-taxonomy.svg' },
+					{ id: 'ms1', label: 'Experimental MS1 Spectra', active: false, icon: '/icon/icon-spectra.svg' },
+					{ id: 'ms2', label: 'Experimental MS2 Spectra', active: false, icon: '/icon/icon-spectra.svg' }
 				]
 			}
 		},
 		mounted () {
 			const ipt = this.$route.query.ipt
-			this.getDetails(ipt);			
+			this.getDetails(ipt);
 		},
 		methods: {
 			getDetails (ipt) {
@@ -123,7 +123,6 @@ define(function(require){
 	            if (element) {
 	                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	            }
-				
 				this.toggleDirectoryItemActive(sectionId);
 	        }
 		}

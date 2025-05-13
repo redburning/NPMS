@@ -10,7 +10,9 @@ define(function(require){
 				showHistory: false,		// 显示历史搜索项
 				pageNum: 0,
 				pageSize: 10,
-				suggestOptions: []
+				suggestOptions: [],
+				carouselIntervalId: null,
+				carouselScrollLeft: 0
 			}
 		},
 		computed: {
@@ -18,19 +20,26 @@ define(function(require){
 		},
 		mounted () {
 			// enter按键自动触发搜索
-			var self = this;
-        	document.onkeydown = function(e) {
-        		let key = window.event.keyCode;
-        		if (key == 13) {
-        			self.onSearchBtnClick();
-        		}
-        	};
-			
-			this.carouselGallery();
-			window.addEventListener('resize', this.carouselGallery());
+			document.onkeydown = (e) => {
+				if (e.keyCode === 13) {
+					this.onSearchBtnClick();
+				}
+			};
 		},
-		beforeDestory() {
-			window.removeEventListener('resize', this.carouselGallery());
+		beforeRouteEnter(to, from, next) {
+			next(vm => {
+				vm.carouselIntervalId = vm.startCarouselGallery();
+				vm.handleResize();
+			});
+		},
+		beforeRouteLeave(to, from, next) {
+			this.stopCarouselGallery();
+			window.removeEventListener('resize', this.handleResize);
+			next();
+		},
+		beforeDestroy() {
+			this.stopCarouselGallery();
+			window.removeEventListener('resize', this.handleResize);
 		},
 		methods: {
 			onSearchBtnClick() {
@@ -83,33 +92,45 @@ define(function(require){
 				this.$store.dispatch('clearSearchHistory');
 				this.showHistory = false;
 			},
-			carouselGallery() {
-			    let currentLeft = 0;
-			    const gap = 20;
-			    const imgWidthKey = 'clientWidth';
-			    const containerId = 'imgContainer';
-			    const multiplier = 4;
-			    function scrollGallery(direction) {
-			        const container = document.getElementById(containerId);
-					if (container !== null) {
-						const imgWidth = container.querySelector('img')[imgWidthKey];
-				        const offsetThreshold = imgWidth * multiplier + gap * (multiplier - 1);
-						
-				        if (direction === 'next') {
-				            currentLeft -= (imgWidth + gap);
-				            if (currentLeft < -offsetThreshold) {
-				                currentLeft = 0;
-				                container.style.transition = 'unset';
-				                setTimeout(() => {
-				                    container.style.transition = 'left 0.5s ease-in-out';
-				                }, 50);
-				            }
-				        }
-				        container.style.left = currentLeft + 'px';
+			startCarouselGallery() {
+				if (this.carouselIntervalId) {
+					clearInterval(this.carouselIntervalId);
+				}
+				this.carouselScrollLeft = 0;
+				return setInterval(() => this.scrollGallery('next'), 5000);
+			},
+			stopCarouselGallery() {
+				if (this.carouselIntervalId) {
+					clearInterval(this.carouselIntervalId);
+					this.carouselIntervalId = null;
+				}
+			},
+			handleResize() {
+				this.startCarouselGallery();
+			},
+			scrollGallery(direction) {
+				const gap = 20;
+				const imgWidthKey = 'clientWidth';
+				const containerId = 'imgContainer';
+				const multiplier = 4;
+				
+				const container = document.getElementById(containerId);
+				if (container) {
+					const imgWidth = container.querySelector('img')[imgWidthKey];
+					const offsetThreshold = imgWidth * multiplier + gap * (multiplier - 1);
+					
+					if (direction === 'next') {
+						this.carouselScrollLeft -= (imgWidth + gap);
+						if (this.carouselScrollLeft < -offsetThreshold) {
+							this.carouselScrollLeft = 0;
+							container.style.transition = 'unset';
+							setTimeout(() => {
+								container.style.transition = 'left 0.5s ease-in-out';
+							}, 50);
+						}
 					}
-			    }
-			    // Auto scroll every 5 seconds
-			    setInterval(() => scrollGallery('next'), 5000);
+					container.style.left = this.carouselScrollLeft + 'px';
+				}
 			}
 		}
 	});

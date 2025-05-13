@@ -24,6 +24,13 @@ h2 {
 	min-height: 100vh;
 }
 
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('/assets/fonts/poppins/Poppins-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .align-center {
 	text-align: center;
 }

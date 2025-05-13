@@ -41,8 +41,13 @@ define(function(require){
 			    this.showFixedSearchBanner = window.scrollY > 180;
 			},
 			onSearchBtnClick() {
-				this.getTotlaCount(this.keyword);
-				this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+				if (this.keyword !== undefined) {
+					this.getTotlaCount(this.keyword);
+					this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+				} else {
+					this.getTotlaCount('*');
+					this.getSearchHits('*', this.page.currentPage - 1, this.page.pageSize);
+				}
 			},
 			getTotlaCount(keyword) {
 				var self = this;
@@ -81,7 +86,11 @@ define(function(require){
 			},
 			handleCurrentPageChange(current) {
 				this.page.currentPage = current;
-				this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+				if (this.keyword !== undefined) {
+					this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
+				} else {
+					this.getSearchHits('*', this.page.currentPage - 1, this.page.pageSize);
+				}
 			},
 			truncateMessage(message) {
 				if (message.indexOf('span') != -1) {
@@ -130,8 +139,10 @@ define(function(require){
 				this.$router.push({ path: '/home'});
 			},
 			gotoDetails(item) {
-				const url = `/#/details?ipt=${encodeURIComponent(item.ipt)}`;
-				window.open(url, '_blank');
+				this.$router.push({
+					path: '/details',
+					query: { ipt: item.ipt }
+				});
 			}
 		}
 	});

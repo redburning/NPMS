@@ -83,6 +83,13 @@
             <artifactId>sqlite-jdbc</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!--for test-->
+        <dependency>
+	        <groupId>org.mongodb</groupId>
+	        <artifactId>mongodb-driver-sync</artifactId>
+	        <scope>test</scope>
+	    </dependency>
     </dependencies>
     
     <build>
