@@ -1,0 +1,39 @@
+<div>
+	<div class="ms-content-wrapper">
+		<div class="justify-content-center">
+			<div class="ms-content">
+				<div class="ms-content-header">
+					<div class="ms-content-header-title">Spectrum Search</div>
+				</div>
+				<div class="ms-content-body">
+					<el-tabs type="border-card">
+					    <el-tab-pane label="LC-MS/MS Search">
+					    	<div class="flex-gap-20">
+						    	<div class="search-input-area">
+						    		<div class="flex">
+							    		<file-upload :on-success="handleUploadSuccess"></file-upload>
+							    	</div>
+							    	<div class="search-input-gap">
+							    		<div class="form-input-label">Peaks: </div>
+							    		<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" :placeholder="uploadFormat" v-model="uploadContent">
+							    		</el-input>
+							    	</div>
+							    	<div class="search-input-gap">
+							    		<div class="form-input-label">Precursor m/z: </div>
+							    		<el-input-number v-model="precursorMz" size="small" controls-position="right" placeholder="500.321" @change="renderPrecursor" style="width:100%"></el-input-number>
+							    	</div>
+							    	<div class="search-input-gap">
+							    		<div class="flex">
+							    			<el-button type="primary" @click="searchSpectrum" class="flex-center search-btn" icon="el-icon-search" :disabled="peaks.length == 0 || precursorMz == undefined">Search</el-button>
+							    		</div>
+							    	</div>
+						    	</div>
+						    	<div id="plotly-upload-spectrum"></div>
+						    </div>
+					    </el-tab-pane>
+					</el-tabs>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

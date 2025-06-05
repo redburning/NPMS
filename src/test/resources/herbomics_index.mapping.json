@@ -1,0 +1,94 @@
+{
+    "properties": {
+        "chineseName": {
+            "type": "text"
+        },
+        "ipt": {
+            "type": "keyword"
+        },
+        "englishName": {
+            "type": "text"
+        },
+        "chineseSynonyms": {
+            "type": "text"
+        },
+        "englishSynonyms": {
+            "type": "text"
+        },
+        "pathway": {
+            "type": "keyword"
+        },
+        "superclass": {
+            "type": "keyword"
+        },
+        "class": {
+            "type": "keyword"
+        },
+        "pubChemCID": {
+            "type": "keyword"
+        },
+        "lotus": {
+            "type": "keyword"
+        },
+        "wikidata": {
+            "type": "keyword"
+        },
+        "species1": {
+            "type": "text"
+        },
+        "species2": {
+            "type": "text"
+        },
+        "species3": {
+            "type": "text"
+        },
+        "cas": {
+            "type": "keyword"
+        },
+        "molecularFormula": {
+            "type": "keyword"
+        },
+        "charge": {
+            "type": "short"
+        },
+        "monoisotopicMass": {
+            "type": "float"
+        },
+        "avgMolecularWeight": {
+            "type": "float"
+        },
+        "inChIKey": {
+            "type": "keyword"
+        },
+        "smiles": {
+            "type": "keyword"
+        },
+        "mPlusH": {
+            "type": "float"
+        },
+        "mMinusH": {
+            "type": "float"
+        },
+        "mPlusNH4": {
+            "type": "float"
+        },
+        "mPlusNa": {
+            "type": "float"
+        },
+        "mPlusAcetate": {
+            "type": "float"
+        },
+        "mPlusCI": {
+            "type": "float"
+        },
+        "bioactivity": {
+            "type": "text"
+        },
+        "reference": {
+            "type": "text"
+        },
+        "suggest": {
+            "type": "completion"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+<div style="width:100%">
+	<input ref="file-upload-input" class="excel-upload-input" type="file" accept=".txt, .mgf" @change="handleClick">
+    <div>
+    	<div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
+	      	Drop file here or
+	      	<el-button :loading="loading" style="margin-left:16px;" size="small" type="primary" @click="handleUpload" icon="iconfont icon-folder-open">
+	        	Browse
+	      	</el-button>
+	    </div>
+    </div>
+</div>

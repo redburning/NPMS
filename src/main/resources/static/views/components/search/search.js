@@ -101,8 +101,6 @@ define(function(require){
 				return message;
 			},
 		    handleImageError(event) {
-				// 尝试加载 .png 图片
-		      	event.target.src = event.target.src.replace(/\.png$/, '.svg');
 		      	event.target.onerror = () => {
 		        	// 如果 .png 也加载失败，使用默认占位图
 		        	event.target.src = '/assets/img/no-img.svg';

@@ -1,0 +1,19 @@
+{
+    "properties": {
+        "ipt": {
+            "type": "keyword"
+        },
+        "positiveAnnotation": {
+            "type": "text"
+        },
+        "negativeAnnotation": {
+            "type": "text"
+        },
+        "positiveData": {
+            "type": "object"
+        },
+        "negativeData": {
+            "type": "object"
+        }
+    }
+}

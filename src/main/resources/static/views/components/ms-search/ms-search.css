@@ -1,0 +1,112 @@
+.ms-content-wrapper {
+	margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.ms-content {
+	width: 100%;
+}
+
+.ms-content .flex-gap-20 {
+	display: flex;
+	gap: 20px;
+}
+
+.ms-content-header {
+	background-image: url('/assets/image/banner_bg2.png');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 30px 10%;
+}
+
+.ms-content-header-title {
+	font-size: 28px;
+	color: #005537;
+	font-weight: 600;
+}
+
+.ms-content-body {
+	padding: 20px 10%;
+}
+
+
+@media (max-width: 2048px) {
+	.ms-content .search-input-area {
+		width: 400px;
+	}
+	
+	.ms-content #plotly-upload-spectrum {
+		width: calc(100% - 400px);
+		min-height: 450px;
+	}
+}
+
+@media (max-width: 1600px) {
+	.ms-content .search-input-area {
+		width: 300px;
+	}
+	
+	.ms-content #plotly-upload-spectrum {
+		width: calc(100% - 300px);
+		min-height: 450px;
+	}
+}
+
+.ms-content .search-input-gap {
+	margin-top: 20px;
+}
+
+.ms-content .el-tabs__item {
+	font-size: 16px !important;
+}
+
+.ms-content .el-tabs--border-card {
+	-webkit-box-shadow: unset !important;
+    box-shadow: unset !important;
+}
+
+.ms-content .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
+    color: #064f37 !important;
+}
+
+.ms-content .el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover {
+	color: #064f37 !important;
+}
+
+.ms-content .el-textarea__inner {
+	border-width: 2px !important;
+}
+
+.ms-content .el-textarea__inner:focus {
+    border-color: #156340 !important;
+    border-width: 2px !important;
+}
+
+.ms-content .el-input__inner {
+	border-width: 2px !important;
+}
+
+.ms-content .el-input__inner:focus {
+    border-color: #156340 !important;
+}
+
+.ms-content .form-input-label {
+	color: #005537;
+	margin-bottom: 8px;
+}
+
+.ms-content textarea {
+	font-size: 1rem !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Oxygen-Sans, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", "Source Sans Pro", sans-serif !important;
+}
+
+.ms-content .search-btn {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.ms-content .el-input-number__decrease, .el-input-number__increase {
+    display: none !important;
+}

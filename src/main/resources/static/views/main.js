@@ -79,6 +79,10 @@ define(function (require) {
 						component: require('/views/components/search/search.js')
 					},
 					{
+						path: '/ms-search',
+						component: require('/views/components/ms-search/ms-search.js')
+					},
+					{
 						path: '/details',
 						component: require('/views/components/details/details.js')
 					}

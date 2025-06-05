@@ -18,7 +18,7 @@ public class MS1Converter {
 	private List<String> ms1Files;
 	
 	public MS1Converter() {
-		String folderPath = "F:\\MyProjects\\herbomics\\资料\\MS1-mzXML";
+		String folderPath = "F:\\MyProjects\\herbomics\\资料\\data-v2\\MS1-mzXML";
 		ms1Files = FileUtil.listDir(folderPath, ".mzXML");
 	}
 	

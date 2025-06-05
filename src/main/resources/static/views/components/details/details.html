@@ -4,8 +4,8 @@
 			<div class="content">
 				<div class="content-header">
 					<div>
-						<div class="content-header-desc">Metabolite name</div>
-						<div class="content-header-title">Coleonol B</div>
+						<div class="content-header-title" style="margin-bottom:12px;">{{ searchHit.englishName }}</div>
+						<div class="content-header-title">{{ searchHit.chineseName }}</div>
 					</div>
 				</div>
 				<div class="content-body">
@@ -17,46 +17,46 @@
 						<div class="content-item">
 							<div class="column-table">
 								<div class="flex-center">
-									<div class="column-table-header">English Name</div>
-									<div class="column-table-cell">{{ searchHit.englishName }}</div>
-								</div>
-								<div class="column-table-border-top flex-center">
-									<div class="column-table-header">Chinese Name</div>
-									<div class="column-table-cell">{{ searchHit.chineseName }}</div>
-								</div>
-								<div class="column-table-border-top flex-center">
-									<div class="column-table-header">Chinese Name Alias</div>
-									<div class="column-table-cell">{{ searchHit.chineseNameAlias }}</div>
-								</div>
-								<div class="column-table-border-top flex-center">
 									<div class="flex-center" style="width:50%">
 										<div class="column-table-header">NPMS</div>
 										<div class="column-table-cell" v-html="searchHit.ipt"></div>
 									</div>
 									<div class="flex-center" style="width:50%">
-										<div class="column-table-header column-table-border-left">CAS</div>
+										<div class="column-table-header column-table-border-left">LOTUS</div>
+										<div class="column-table-cell">
+											<a :href="'https://lotus.naturalproducts.net/compound/lotus_id/' + searchHit.lotus " target="_blank" v-html="searchHit.lotus"></a>
+										</div>
+									</div>
+								</div>
+								<div class="column-table-border-top flex-center">
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header">CAS</div>
 										<div class="column-table-cell">{{ searchHit.cas }}</div>
 									</div>
+									<div class="flex-center" style="width:50%">
+										<div class="column-table-header column-table-border-left">PubChemCID</div>
+										<div class="column-table-cell">
+											<a :href="'https://pubchem.ncbi.nlm.nih.gov/#query=' + searchHit.pubChemCID " target="_blank" v-html="searchHit.pubChemCID"></a>
+										</div>
+									</div>
 								</div>
 								<div class="column-table-border-top flex-center">
 									<div class="flex-center" style="width:50%">
-										<div class="column-table-header">LOTUS</div>
-										<div class="column-table-cell">{{ searchHit.lotus }}</div>
-									</div>
-									<div class="flex-center" style="width:50%">
-										<div class="column-table-header column-table-border-left">Wikidata</div>
+										<div class="column-table-header">Wikidata</div>
 										<div class="column-table-cell">{{ searchHit.wikidata }}</div>
 									</div>
-								</div>
-								<div class="column-table-border-top flex-center">
 									<div class="flex-center" style="width:50%">
-										<div class="column-table-header">PubChemCID</div>
-										<div class="column-table-cell">{{ searchHit.pubChemCID }}</div>
-									</div>
-									<div class="flex-center" style="width:50%">
-										<div class="column-table-header column-table-border-left">NPMS Secondary ID</div>
+										<div class="column-table-header column-table-border-left">COCONUT</div>
 										<div class="column-table-cell"></div>
 									</div>
+								</div>
+								<div class="column-table-border-top flex">
+									<div class="column-table-header">English Synonyms</div>
+									<div class="column-table-cell" v-html="formatedEnglishSynonyms" style="line-height:28px;"></div>
+								</div>
+								<div class="column-table-border-top flex">
+									<div class="column-table-header">Chinese Synonyms</div>
+									<div class="column-table-cell" v-html="formatedChineseSynonyms" style="line-height:28px;"></div>
 								</div>
 							</div>
 						</div>
@@ -70,12 +70,12 @@
 							<div class="column-table">
 								<div class="flex-center">
 									<div class="flex-center" style="width:50%">
-										<div class="column-table-header">Formula</div>
+										<div class="column-table-header">Molecular Formula</div>
 										<div class="column-table-cell">{{ searchHit.molecularFormula }}</div>
 									</div>
 									<div class="flex-center" style="width:50%">
 										<div class="column-table-header column-table-border-left">Charge State</div>
-										<div class="column-table-cell"></div>
+										<div class="column-table-cell">{{ searchHit.charge }}</div>
 									</div>
 								</div>
 								<div class="column-table-border-top flex-center">
@@ -84,8 +84,8 @@
 										<div class="column-table-cell">{{ searchHit.monoisotopicMass }}</div>
 									</div>
 									<div class="flex-center" style="width:50%">
-										<div class="column-table-header column-table-border-left">Average MW</div>
-										<div class="column-table-cell"></div>
+										<div class="column-table-header column-table-border-left">Average Molecular Weight</div>
+										<div class="column-table-cell">{{ searchHit.avgMolecularWeight }}</div>
 									</div>
 								</div>
 								<div class="column-table-border-top flex-center">
@@ -96,9 +96,11 @@
 									<div class="column-table-header">SMILES</div>
 									<div class="column-table-cell">{{ searchHit.smiles }}</div>
 								</div>
-								<div class="column-table-border-top flex-center">
+								<div class="column-table-border-top flex">
 									<div class="column-table-header">Structure</div>
-									<div class="column-table-cell"></div>
+									<div class="column-table-cell">
+										<img :src="'/assets/img/' + ipt + '.svg'" style="height:200px;">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -125,86 +127,49 @@
 						<div class="content-item-header">
 							<img src="/icon/icon-spectra.svg">
 							<span>Experimental MS1 Spectra</span>
+							<el-select v-model="selectedMS1Spectra" @change="renderMs1Plot" size="small" style="margin-left:10px; width:150px;">
+							    <el-option v-for="item in ms1SpectraOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+							</el-select>
 						</div>
 						<div class="content-item">
-							<div class="flex" style="gap:20px;">
-								<div class="card" style="width:50%;">
-									<div class="card-header">
-										<div class="card-title flex-center">
-											<img src="/icon/icon-title.svg">
-											<span>Positive MS1</span>
-										</div>
-									</div>
-									<div class="card-body">
-										<div id="plotly-ms1-positive" class="spectrum-container"></div>
-										<div class="column-table">
-											<div class="flex-center">
-												<div class="column-table-header">In-source Fragmentation:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Instrument:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Ion source:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Resolution:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Capillary temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Heater temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Creation time:</div>
-												<div class="column-table-cell"></div>
-											</div>
-										</div>
+							<div class="card" style="width:100%">
+								<div class="card-header">
+									<div class="card-title flex-center">
+										<img src="/icon/icon-title.svg">
+										<span v-show="selectedMS1Spectra === 'positive-ms1'">Positive MS1</span>
+										<span v-show="selectedMS1Spectra === 'negative-ms1'">Negative MS1</span>
 									</div>
 								</div>
-								<div class="card" style="width:50%;">
-									<div class="card-header">
-										<div class="card-title flex-center">
-											<img src="/icon/icon-title.svg">
-											<span>Negative MS1</span>
+								<div class="card-body">
+									<div id="plotly-ms1" class="spectrum-container"></div>
+									<div class="column-table">
+										<div class="flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">MS Instrument:</div>
+												<div class="column-table-cell">Q Exactive Orbitrap</div>
+											</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Positive MS1 Annotation:</div>
+												<div class="column-table-cell">{{ searchHit.ms1PositiveAnnotation }}</div>
+											</div>
 										</div>
-									</div>
-									<div class="card-body">
-										<div id="plotly-ms1-negative" class="spectrum-container"></div>
-										<div class="column-table">
-											<div class="flex-center">
-												<div class="column-table-header">In-source Fragmentation:</div>
-												<div class="column-table-cell"></div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Ion Source:</div>
+												<div class="column-table-cell">Heated ESI</div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Instrument:</div>
-												<div class="column-table-cell"></div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Negative MS1 Annotation:</div>
+												<div class="column-table-cell">{{ searchHit.ms1NegativeAnnotation }}</div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Ion source:</div>
-												<div class="column-table-cell"></div>
+										</div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">MS1 Resolution:</div>
+												<div class="column-table-cell">70,000 FWHM</div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Resolution:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Capillary temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Heater temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Creation time:</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Creation Time:</div>
 												<div class="column-table-cell"></div>
 											</div>
 										</div>
@@ -217,86 +182,68 @@
 						<div class="content-item-header">
 							<img src="/icon/icon-spectra.svg">
 							<span>Experimental MS2 Spectra</span>
+							<el-select v-model="selectedMS2Spectra" @change="" size="small" style="margin-left:10px;">
+							    <el-option v-for="item in ms2SpectraOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+							</el-select>
 						</div>
 						<div class="content-item">
-							<div class="flex" style="gap:20px;">
-								<div class="card" style="width:50%;">
-									<div class="card-header">
-										<div class="card-title flex-center">
-											<img src="/icon/icon-title.svg">
-											<span>Positive MS2</span>
-										</div>
-									</div>
-									<div class="card-body">
-										<div id="plotly-ms2-positive" class="spectrum-container"></div>
-										<div class="column-table">
-											<div class="flex-center">
-												<div class="column-table-header">In-source Fragmentation:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Instrument:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Ion source:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Resolution:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Capillary temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Heater temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Creation time:</div>
-												<div class="column-table-cell"></div>
-											</div>
-										</div>
+							<div class="card" style="width:100%;">
+								<div class="card-header">
+									<div class="card-title flex-center">
+										<img src="/icon/icon-title.svg">
+										<span>{{ selectedMS2Spectra }} MS2</span>
 									</div>
 								</div>
-								<div class="card" style="width:50%;">
-									<div class="card-header">
-										<div class="card-title flex-center">
-											<img src="/icon/icon-title.svg">
-											<span>Negative MS2</span>
+								<div class="card-body">
+									<div id="plotly-ms2" class="spectrum-container"></div>
+									<div class="column-table">
+										<div class="flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Precursor Ion:</div>
+												<div class="column-table-cell"></div>
+											</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Instrument Type:</div>
+												<div class="column-table-cell">LC-ESI-HRMS</div>
+											</div>
 										</div>
-									</div>
-									<div class="card-body">
-										<div id="plotly-ms2-negative" class="spectrum-container"></div>
-										<div class="column-table">
-											<div class="flex-center">
-												<div class="column-table-header">In-source Fragmentation:</div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Fragmentation:</div>
+												<div class="column-table-cell">HCD-MS2,  Collision gas N2</div>
+											</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">MS Analyzer:</div>
+												<div class="column-table-cell">FTMS Orbitrap</div>
+											</div>
+										</div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Collision Energy:</div>
+												<div class="column-table-cell">Stepped NCE, 15%+35%+55%</div>
+											</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Polarity:</div>
 												<div class="column-table-cell"></div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Instrument:</div>
+										</div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Spectral Entropy:</div>
 												<div class="column-table-cell"></div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Ion source:</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Curation Status:</div>
+												<div class="column-table-cell">Recalibrated</div>
+											</div>
+										</div>
+										<div class="column-table-border-top flex-center">
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header">Normalized Entropy:</div>
 												<div class="column-table-cell"></div>
 											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Resolution:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Capillary temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Heater temp:</div>
-												<div class="column-table-cell"></div>
-											</div>
-											<div class="column-table-border-top flex-center">
-												<div class="column-table-header">Creation time:</div>
+											<div class="flex-center" style="width:50%">
+												<div class="column-table-header column-table-border-left">Creation Time:</div>
 												<div class="column-table-cell"></div>
 											</div>
 										</div>
@@ -313,8 +260,13 @@
 						<div class="content-item">
 							<div class="card">
 								<div class="card-header">
-									<div class="card-title">
+									<div class="card-title flex gap-10">
 										<img src="/icon/icon-pmid.svg">
+										<div class="flex-column gap-10">
+											<a :href="'https://pubmed.ncbi.nlm.nih.gov/' + searchHit.pmid " target="_blank" v-if="searchHit.pmid !== undefined">PMID: {{ searchHit.pmid }}</a>
+											<a :href="'https://www.ncbi.nlm.nih.gov/pmc/articles/' + searchHit.pmcid " target="_blank" v-if="searchHit.pmcid !== undefined">PMCID: {{ searchHit.pmcid }}</a>
+											<a :href="'https://doi.org/' + searchHit.doi " target="_blank" v-if="searchHit.doi !== undefined">DOI: {{ searchHit.doi }}</a>
+										</div>
 									</div>
 								</div>
 							</div>

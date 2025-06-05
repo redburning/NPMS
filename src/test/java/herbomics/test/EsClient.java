@@ -20,12 +20,16 @@ import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 
-import redburning.github.io.npms.entity.DocumentEntity;
+import redburning.github.io.npms.entity.MetaDataEntity;
+import redburning.github.io.npms.entity.MS1DataEntity;
+import redburning.github.io.npms.entity.MS2DataEntity;
 
 public class EsClient {
 	
 	private static final String esServerAddress = "127.0.0.1:9200";
-	private static final String indexName = "herbomics_index";
+	private static final String metaIndexName = "herbomics_index";
+	private static final String ms1IndexName = "ms1_index";
+	private static final String ms2IndexName = "ms2_index";
 	private static final HttpHost[] esHosts;
     
     static {
@@ -92,13 +96,13 @@ public class EsClient {
 	}
 
     
-    public static void main(String[] args) throws IOException {
-    	List<DocumentEntity> documentList = (new DataLoader()).load();
+	public static void sinkMetaDataIndex() throws IOException {
+		List<MetaDataEntity> documentList = (new DataLoader()).loadMetaData();
 		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(esHosts));
 		BulkProcessor bulkProcessor = createBulkProcessor(client);
 		try {
-			for (DocumentEntity document : documentList) {
-				bulkProcessor.add(Requests.indexRequest().index(indexName).source(document.toString(), XContentType.JSON));
+			for (MetaDataEntity document : documentList) {
+				bulkProcessor.add(Requests.indexRequest().index(metaIndexName).source(document.toString(), XContentType.JSON));
 			}
 			bulkProcessor.flush();
 			bulkProcessor.awaitClose(30, TimeUnit.SECONDS);
@@ -107,6 +111,50 @@ public class EsClient {
 		} finally {
 			client.close();
 		}
+	}
+	
+	
+	public static void sinkMS1Index() throws IOException {
+		List<MS1DataEntity> ms1EntityList = (new DataLoader()).loadMS1Data();
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(esHosts));
+		BulkProcessor bulkProcessor = createBulkProcessor(client);
+		try {
+			for (MS1DataEntity document : ms1EntityList) {
+				bulkProcessor.add(Requests.indexRequest().index(ms1IndexName).source(document.toString(), XContentType.JSON));
+			}
+			bulkProcessor.flush();
+			bulkProcessor.awaitClose(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			client.close();
+		}
+	}
+	
+	public static void sinkMS2Index() throws IOException {
+		List<MS2DataEntity> ms2EntityList = (new DataLoader()).loadMS2Data();
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(esHosts));
+		BulkProcessor bulkProcessor = createBulkProcessor(client);
+		try {
+			for (MS2DataEntity document : ms2EntityList) {
+				bulkProcessor.add(Requests.indexRequest().index(ms2IndexName).source(document.toString(), XContentType.JSON));
+			}
+			bulkProcessor.flush();
+			bulkProcessor.awaitClose(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			client.close();
+		}
+	}
+	
+    public static void main(String[] args) throws IOException {
+    	// 元数据索引
+    	//sinkMetaDataIndex();
+    	// 一级数据索引
+    	//sinkMS1Index();
+    	// 二级数据索引
+    	sinkMS2Index();
 	}
     
 }

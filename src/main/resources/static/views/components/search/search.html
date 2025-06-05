@@ -36,12 +36,6 @@
 				</div>
 				<div class="search-result-list-item-body">
 					<div>
-						<div class="f-0875">
-   							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">English Name: </span>
-   								<span v-html="item.englishName"></span>
-   							</div>
-   						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
    								<span class="f-medium">Chinese Name: </span>
@@ -50,31 +44,31 @@
    						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
- 								<span class="f-medium">Chinese Name Alias: </span>
- 								<span v-html="item.chineseNameAlias"></span>
+ 								<span class="f-medium">Molecular Formula: </span>
+ 								<span v-html="item.molecularFormula"></span>
    							</div>
    						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">PubChem CID: </span>
-   								<a class="f-medium" :href="'https://pubchem.ncbi.nlm.nih.gov/#query=' + item.pubChemCID " target="_blank" v-html="item.pubChemCID"></a>
+   								<span class="f-medium">Average Molecular Weight: </span>
+   								<span v-html="item.avgMolecularWeight"></span>
    							</div>
    						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
-   								<span class="f-medium">Lotus ID: </span>
-   								<a class="f-medium" :href="'https://lotus.naturalproducts.net/compound/lotus_id/' + item.lotus " target="_blank" v-html="item.lotus"></a>
+   								<span class="f-medium">Pathway: </span>
+   								<span v-html="item.pathway"></span>
    							</div>
    						</div>
    						<div class="f-0875">
    							<div class="p-xsm-top p-xsm-bottom inline-block">
-  								<span class="f-medium">Formula: </span>
-  								<span v-html="item.molecularFormula"></span>   								
+  								<span class="f-medium">Superclass: </span>
+  								<span v-html="item.superclass"></span>   								
    							</div>
    						</div>
 					</div>
 					<div class="search-result-list-item-img-container">
-						<img :src="'/assets/img/' + item.ipt + '.png'" @error="handleImageError" style="width:200px;">
+						<img :src="'/assets/img/' + item.ipt + '.svg'" @error="handleImageError" style="width:200px;">
 					</div>
 				</div>
 				<div class="search-result-list-item-footer"></div>

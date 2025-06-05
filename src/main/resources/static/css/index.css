@@ -25,10 +25,17 @@ h2 {
 }
 
 @font-face {
-    font-family: 'Poppins-Regular';
-    src: url('/assets/fonts/poppins/Poppins-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'OpenSans-Regular';
+  src: url('/assets/fonts/opensans/OpenSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('/assets/fonts/opensans/OpenSans-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .align-center {
@@ -66,12 +73,12 @@ h2 {
     color: #FFF !important;
 }
 
-.el-input__inner {
+.search-container .el-input__inner {
     border: 2px solid #c4c7ce !important;
     border-right: none !important;
 }
 
-.el-input__inner:focus {
+.search-container .el-input__inner:focus {
     border-color: #005537 !important;
     border-right: none !important;
 }
@@ -225,6 +232,15 @@ h2 {
 
 .flex-1 {
 	flex: 1;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.gap-10 {
+	gap: 10px;
 }
 
 .justify-content-center {
@@ -471,6 +487,7 @@ a:visited {
 	height: 60px;
     max-width: 1080px;
     margin: 0 auto;
+    font-family: OpenSans-Regular;
 }
 
 .navbar-light {
