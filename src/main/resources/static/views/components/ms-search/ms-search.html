@@ -6,7 +6,7 @@
 					<div class="ms-content-header-title">Spectrum Search</div>
 				</div>
 				<div class="ms-content-body">
-					<el-tabs type="border-card">
+					<el-tabs type="border-card" v-show="showSearchPanel">
 					    <el-tab-pane label="LC-MS/MS Search">
 					    	<div class="flex-gap-20">
 						    	<div class="search-input-area">
@@ -15,16 +15,16 @@
 							    	</div>
 							    	<div class="search-input-gap">
 							    		<div class="form-input-label">Peaks: </div>
-							    		<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" :placeholder="uploadFormat" v-model="uploadContent">
+							    		<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" :placeholder="searchParams.uploadFormat" v-model="searchParams.uploadContent">
 							    		</el-input>
 							    	</div>
 							    	<div class="search-input-gap">
 							    		<div class="form-input-label">Precursor m/z: </div>
-							    		<el-input-number v-model="precursorMz" size="small" controls-position="right" placeholder="500.321" @change="renderPrecursor" style="width:100%"></el-input-number>
+							    		<el-input-number v-model="searchParams.precursorMz" size="small" controls-position="right" placeholder="500.321" @change="renderPrecursor" style="width:100%"></el-input-number>
 							    	</div>
 							    	<div class="search-input-gap">
 							    		<div class="flex">
-							    			<el-button type="primary" @click="searchSpectrum" class="flex-center search-btn" icon="el-icon-search" :disabled="peaks.length == 0 || precursorMz == undefined">Search</el-button>
+							    			<el-button type="primary" @click="searchSpectrum" class="flex-center search-btn" icon="el-icon-search" :disabled="searchParams.peaks.length == 0 || searchParams.precursorMz == undefined">Search</el-button>
 							    		</div>
 							    	</div>
 						    	</div>
@@ -32,6 +32,55 @@
 						    </div>
 					    </el-tab-pane>
 					</el-tabs>
+					
+					<!-- 检索结果展示 -->
+					<div class="ms-search-result-table-container" v-if="showSearchPanel === false && searchResult.length > 0">
+						<el-button type="primary" size="small" @click="showSearchPanel = true" class="back-btn">Back to Search</el-button>
+						<div id="ms-search-result-table">
+							<el-table :data="searchResult" border style="width:100%">
+							    <el-table-column prop="metadata.ipt" label="NPMS" width="150"></el-table-column>
+							    <el-table-column id="metadata" prop="metadata" label="Metabolite" :formatter="formatMetaboliteName"></el-table-column>
+							    <el-table-column prop="metadata.ion" label="Precursor Ion" width="150">
+							    	<template slot-scope="scope">
+							    		<span :class="getTagClass(scope.row.metadata.ion)">{{ scope.row.metadata.ion }}</span>
+							    	</template>
+							    </el-table-column>
+							    <el-table-column prop="metadata.formula" label="Formula" width="250"></el-table-column>
+							    <el-table-column label="Similarity" width="300">
+							    	<template slot-scope="scope">
+							    		<div class="flex-center" style="width:100%">
+											<div class="table-gauge-background" style="width:70%">
+												<div :class="{ 'table-gauge-bar-green': scope.row.entropy_similarity >= 0.6, 'table-gauge-bar-yellow': scope.row.entropy_similarity < 0.6 && scope.row.entropy_similarity >= 0.3, 'table-gauge-bar-red': scope.row.entropy_similarity < 0.3 }" 
+													:style="{ width: (scope.row.entropy_similarity * 100).toFixed(0) + '%' }">
+												</div>
+											</div>
+											<div style="width:25%" 
+												:class="{ 'table-gauge-text-green': scope.row.entropy_similarity >= 0.6, 'table-gauge-text-yellow': scope.row.entropy_similarity < 0.6 && scope.row.entropy_similarity >= 0.3, 'table-gauge-text-red': scope.row.entropy_similarity < 0.3 }">
+												{{ scope.row.entropy_similarity.toFixed(4) }}
+											</div>
+										</div>
+									</template>
+							    </el-table-column>
+							    <el-table-column prop="metadata" label="Structure" width="300">
+							        <template slot-scope="scope">
+							        	<img :src="'/assets/img/' + scope.row.metadata.ipt + '.svg'" style="width:200px;">
+							    	</template>
+							    </el-table-column>
+							    <el-table-column label="Actions" width="120">
+							    	<template slot-scope="scope">
+							    		<el-button type="primary" size="mini" @click="viewPeaks(scope.row)">View</el-button>
+							    	</template>
+							    </el-table-column>
+						  	</el-table>
+						</div>
+					</div>
+					
+					<el-dialog title="Spectrum Comparation" :visible.sync="spectrumComparationDialogVisible" width="60%">
+					    <div id="plotly-spectrum-mirror"></div>
+					    <span slot="footer" class="dialog-footer">
+					        <el-button size="small" type="primary" @click="spectrumComparationDialogVisible = false">OK</el-button>
+					    </span>
+					</el-dialog>
 				</div>
 			</div>
 		</div>

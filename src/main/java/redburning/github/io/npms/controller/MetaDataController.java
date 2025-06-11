@@ -15,7 +15,7 @@ import redburning.github.io.npms.service.MetaDataService;
 
 @RestController
 @RequestMapping("/docs")
-public class MetaDatatController {
+public class MetaDataController {
 
 	@Autowired
     private MetaDataService metaDataService;
@@ -25,6 +25,17 @@ public class MetaDatatController {
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 		try {
 			List<SearchHit<MetaDataEntity>> searchHits = metaDataService.searchFullText(keyword, page, size);
+			return Result.success(searchHits);
+		} catch (Exception e) {
+			return Result.error(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/term")
+	public Result searchByIpt(@RequestParam String field, @RequestParam String value,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		try {
+			List<SearchHit<MetaDataEntity>> searchHits = metaDataService.termQuery(field, value, page, size);
 			return Result.success(searchHits);
 		} catch (Exception e) {
 			return Result.error(e.getMessage());
@@ -42,9 +53,19 @@ public class MetaDatatController {
 	}
 	
 	@GetMapping("/count")
-    public Result getTotalHits(@RequestParam String keyword) {
+    public Result getTotalHitsForKeyword(@RequestParam String keyword) {
 		try {
 			long totalHits = metaDataService.getTotalHitsForKeyword(keyword);
+	        return Result.success(totalHits);
+		} catch (Exception e) {
+			return Result.error(e.getMessage());
+		}
+    }
+	
+	@GetMapping("/termcount")
+    public Result getTotalHitsForTermQuery(@RequestParam String field, @RequestParam String value) {
+		try {
+			long totalHits = metaDataService.getTotalHitsForTermQuery(field, value);
 	        return Result.success(totalHits);
 		} catch (Exception e) {
 			return Result.error(e.getMessage());

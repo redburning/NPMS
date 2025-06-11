@@ -30,7 +30,7 @@
 				<div class="search-result-list-item-header flex-center flex-between">
 					<div class="flex-center">
 						<div class="search-result-list-item-title" @click="gotoDetails(item)">{{ item.ipt }}</div>
-						<div class="search-result-list-item-subtitle">{{ item.englishName }}</div>
+						<div class="search-result-list-item-subtitle" v-html="item.englishName"></div>
 					</div>
 					<el-button type="plain" size="mini" class="plain-button" @click="gotoDetails(item)">More</el-button>
 				</div>

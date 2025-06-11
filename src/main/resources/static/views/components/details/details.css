@@ -118,12 +118,13 @@
 }
 
 .column-table-header {
-	width: 200px;
+	width: 150px;
 	background-color: #f5f5f5;
 	padding: 12px 15px;
 	color: #858585;
 	border-right: 1px solid rgba(0, 0, 0, 0.125);
 	display: flex;
+	align-items: center;
 	flex-grow: 0;
 	flex-shrink: 0;
 }
@@ -132,6 +133,7 @@
 	padding: 12px 15px;
 	display: flex;
 	color: rgb(0, 32, 96);
+	align-items: center;
 }
 
 .card {

@@ -38,15 +38,25 @@ public class MetaDataService {
     	return metaDataRepository.searchFullText(keyword, pageable);
     }
 
+    public List<SearchHit<MetaDataEntity>> termQuery(String field, String value, int page, int size) {
+    	Pageable pageable = PageRequest.of(page, size);
+    	return metaDataRepository.termQuery(field, value, pageable);
+    }
+    
     public List<SearchHit<MetaDataEntity>> searchByIpt(String ipt) {
     	return metaDataRepository.searchByIpt(ipt);
     }
     
     public long getTotalHitsForKeyword(String keyword) {
-        SearchHits<MetaDataEntity> searchHits = metaDataRepository.countTotalHits(keyword);
+        SearchHits<MetaDataEntity> searchHits = metaDataRepository.getTotalHitsForKeyword(keyword);
         return searchHits.getTotalHits();
     }
 	
+    public long getTotalHitsForTermQuery(String field, String value) {
+    	SearchHits<MetaDataEntity> searchHits = metaDataRepository.getTotalHitsForTermQuery(field, value);
+        return searchHits.getTotalHits();
+    }
+    
     public List<String> getSuggestions(String keyword) throws IOException {
     	// 构建 suggest 查询
         SuggestBuilder suggestBuilder = new SuggestBuilder()

@@ -51,9 +51,8 @@ define(function(require){
 					this.$router.push({
 						path: '/search',
 						query: {
-							keyword: this.keyword,
-							page: this.pageNum,
-							size: this.pageSize
+							type: 'text',
+							keyword: this.keyword
 						}
 					});
 				}
@@ -61,6 +60,19 @@ define(function(require){
 			quickSearch(keyword) {
 				this.keyword = keyword;
 				this.onSearchBtnClick();
+			},
+			termQuery(field, value) {
+				this.keyword = value.trim();
+				if (this.keyword) {
+					this.$router.push({
+						path: '/search',
+						query: {
+							type: 'term',
+							field: field,
+							value: value
+						}
+					});
+				}
 			},
 			onSearchInputFocus() {
 				if (this.searchHistory.length > 0) {

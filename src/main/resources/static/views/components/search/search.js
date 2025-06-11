@@ -5,7 +5,10 @@ define(function(require){
 		template: require('text!/views/components/search/search.html'),
 		data () {
 			return {
+				type: '',
 				keyword: '',
+				field: '',
+				value: '',
 				page: {
 					currentPage: 1,
 				    pageSize: 10,
@@ -16,8 +19,13 @@ define(function(require){
 			}
 		},
 		mounted() {
+			this.type = this.$route.query.type;
 			this.keyword = this.$route.query.keyword;
+			this.field = this.$route.query.field;
+			this.value = this.$route.query.value;
+			
 			this.onSearchBtnClick();
+			
 			// enter按键自动触发搜索
 			var self = this;
         	document.onkeydown = function(e) {
@@ -41,10 +49,18 @@ define(function(require){
 			    this.showFixedSearchBanner = window.scrollY > 180;
 			},
 			onSearchBtnClick() {
-				if (this.keyword !== undefined) {
+				// search by keyword
+				if (this.type === 'text') {
 					this.getTotlaCount(this.keyword);
 					this.getSearchHits(this.keyword, this.page.currentPage - 1, this.page.pageSize);
-				} else {
+				} 
+				// term query
+				else if (this.type === 'term') {
+					this.getTermCount(this.field, this.value);
+					this.getTermQueryHits(this.field, this.value, this.page.currentPage - 1, this.page.pageSize);
+				}
+				// browse
+				else {
 					this.getTotlaCount('*');
 					this.getSearchHits('*', this.page.currentPage - 1, this.page.pageSize);
 				}
@@ -62,10 +78,45 @@ define(function(require){
 						console.log(error);
 					});
 			},
+			getTermCount(field, value) {
+				var self = this;
+				this.$http.get('/docs/termcount?field=' + field + '&value=' + value)
+				    .then(response => {
+					    if (!!response.data) {
+						    var responseData = response.data;
+							self.page.total = responseData.data;
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			},
 			getSearchHits(keyword, page, size) {
 				var self = this;
 				self.searchResult = [];
 				this.$http.get('/docs/search?keyword=' + keyword + '&page=' + page + '&size=' + size)
+					.then(response => {
+						if (!!response.data) {
+							var responseData = response.data;
+							// 遍历每个结果项
+							responseData.data.forEach(item => {
+							    // 遍历 highlightFields 中的每个字段
+							    for (const [field, highlightedValues] of Object.entries(item.highlightFields)) {
+							        // 使用高亮内容替换原来的内容
+							        item.content[field] = highlightedValues[0];
+							    }
+							    self.searchResult.push(item.content);
+							});
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			},
+			getTermQueryHits(field, value, page, size) {
+				var self = this;
+				self.searchResult = [];
+				this.$http.get('/docs/term?field=' + field + '&value=' + value + '&page=' + page + '&size=' + size)
 					.then(response => {
 						if (!!response.data) {
 							var responseData = response.data;
